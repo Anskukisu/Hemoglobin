@@ -1,0 +1,49 @@
+# Comment
+@GET_TIME_VARS
+print("Don't mind me, just printing a line")
+print("For variables etc. do this {}".addargs(5))
+print("If you want the characters use \, so \{ and \}")
+print("Now time for more:")
+print("1. Wait:")
+wait(0.5)
+waitms(500)
+print("2. Loops:")
+repeat(i, 1, 10):
+    print("Iteration {}".addargs(i))
+print("3. While loops:")
+num i = -1 + 2
+while i < 10:
+    i += 1
+print("If - else")
+if 5 == 4:
+    print("5 = 4")
+if 5 > 4:
+    print("5 > 4")
+else:
+    print("5 <= 4")
+print("You can also close the executable with exit() btw")
+print("Input:")
+str inp = input("who r u")
+print("You said {}".addargs(inp))
+print("Time")
+print("It is {}/{}/{}, {HOUR}:{}.{}".addargs(MONTH, DAY, YEAR, HOUR, MINUTE, SECOND))
+print("Math time!!!!!!!!!!!!!!, executing on 5 and 7:")
+print("+: {}, -: {}, *: {}, /: {}, %: {}, //: {}, **: {}".addargs(5 + 7, 5-7, 5* 7, 5 /7, 5 % 7, 5 // 7, 5 ** 7))
+print("Bitwise is &, |, !, ^")
+print("Random number, 0 - 10: {}".addargs(random(0, 10)))
+print("Comparisons: ==, >=, <=, <, >, !=")
+print("String ops on 'foo ' and 'bar':")
+print("JOIN: {}, CHAROF: {} & {}, LEN: {} & {}, CONTAINS: {}".addargs(join("foo ", "bar"), "foo "[0], "bar"[0], len("foo "), len("bar"), contains("foo ", "bar")))
+print("Also has round, abs, floor, ceil, log10, log2, ln, exp, sqrt, sin, cos, tan, asin, acos, atan, atan2")
+print("Numbers: num name = value")
+num number = 3.141592653
+print("Strings: str name = txt")
+str string = "Hi there!"
+print("Lists: lst name = values, these are dynamic, support all types")
+lst list = ["Hi", 69, 21, 2.718, -12]
+print("Arrays: arr name = values, these aren't dynamic, only support numbers & arrays")
+arr array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+print("Functions are just def name(argtype, arg etc etc etc)")
+def hi(name):
+    print("Hi, {}!".addargs(name))
+print("Importing a library adds everything from it into your local namespace")
