@@ -12,11 +12,23 @@ Source code
   Parser
     |
     V
+   AST
+    |
+    V
   RISC-V 
     |
     V
   .elf
 Might later add .exe.
+# Roadmap
++ = complete
+- = not complete
+... = in progress
+Lexer +
+Parser +
+AST ...
+RISC-V generator -
+.elf generator -
 # Contributions
 I am happy to recieve any contributions / ideas.
 # License
