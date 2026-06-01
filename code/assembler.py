@@ -1,4 +1,5 @@
 # Assembler for Hemoglobin (.hmg)
+# I would like to mention that so far this is not used. It is an old demo that I will later use for this projecr
 # Compiles into RISC-V, them compiles it into .elf
 from comperrors import error
 # Assemble
