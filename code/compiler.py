@@ -53,11 +53,29 @@ def tokenize(line, EOF, line_i):
     cursor = 0
     length = len(line)
     tokens = []
+    indent = 0
     while cursor < length:
         c = line[cursor]
         # Handle blanks
         if c in (" ", "\n"):
-            cursor += 1
+            if c != " " and cursor != 0:
+                cursor += 1
+            else:
+                spaces = 0
+                while line[cursor] == " ":
+                    spaces += 1
+                    cursor += 1
+                spaces /= 4
+                if spaces < 1:
+                    continue
+                elif round(spaces) == spaces:
+                    tokens.append(Token("INDENT", spaces))
+                    indent += 1
+                elif indent > spaces:
+                    tokens.append(Token("DEDENT", spaces))
+                    indent -= 1
+                else:
+                    error(line_i, cursor, "Syntax", f"Found {spaces} spaces. Not recogniced as indent nor whitespace.")
             continue
         # Handle comments
         if c == "#":
@@ -225,6 +243,11 @@ def parse(tokens):
                 condition_str = " ".join(condition_parts).replace(" :", "")
                 parsed.append(f"KEYWORD|{block_type}|{condition_str}")
             continue
+        # Handle indents & dedents
+        if kind[0] == "INDENT":
+            parsed.append(f"INDENT|{line[0][1]}")
+        elif kind[0] == "DEDENT":
+            parsed.append(f"DEDENT|{line[0][1]}")
         # Handle identifiers
         if kind[0] == "IDENTIFIER":
             name = line[0][1]
@@ -276,7 +299,16 @@ class Identifier(Node):
                 clean_args.append(f"{a[0]}:{a[1]}")
             else:
                 clean_args.append(str(a))
-        return f"AST_IDENT|{self.name}|{'|'.join(clean_args)}"    
+        return f"AST_IDENT|{self.name}|{'|'.join(clean_args)}"
+class Dent(Node):
+    def __init__(self, direction, spaces):
+        self.dir = direction
+        self.spaces = spaces
+    def txt(self):
+        if self.dir == "in":
+            return f"AST_INDENT|{self.spaces}"
+        else:
+            return f"AST_DEDENT|{self.spaces}"
 def get_ast(parsed):
     tree = []
     for line in parsed:
@@ -311,6 +343,10 @@ def get_ast(parsed):
             func_name = parts[1]
             raw_args = parts[2:]
             tree.append(Identifier(func_name, raw_args).txt())
+        elif cmd == "INDENT":
+            tree.append(Dent("in", parts[1]).txt())
+        elif cmd == "DEDENT":
+            tree.append(Dent("out", parts[1]).txt())
     return tree
 # Compiler
 def comp(filename):
